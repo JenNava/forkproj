@@ -1,5 +1,7 @@
 #!/bin/bash
 
+passwd=$(openssl rand -base64 8 | md5sum | head -c12)
+
 mkdir ss
 cd ss
 
