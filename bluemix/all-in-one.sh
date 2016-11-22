@@ -4,17 +4,11 @@ sudo apt-get update
 
 # 安装依赖
 sudo apt-get install docker.io wget fortune cowsay -y 
-
-wget -O cf.deb 'https://coding.net/u/tprss/p/bluemix-source/git/raw/master/cf-cli-installer_6.16.0_x86-64.deb' 
-sudo dpkg -i cf.deb 
-
-cf install-plugin -f https://coding.net/u/tprss/p/bluemix-source/git/raw/master/ibm-containers-linux_x64
-
-wget 'https://coding.net/u/tprss/p/bluemix-source/git/raw/master/Bluemix_CLI_0.4.3_amd64.tar.gz'
-tar -zxf Bluemix_CLI_0.4.3_amd64.tar.gz
-cd Bluemix_CLI
-sudo ./install_bluemix_cli
-cd ..
+wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+apt-get update
+apt-get install cf-cli
+cf install-plugin https://static-ice.ng.bluemix.net/ibm-containers-linux_x64
 
 # 初始化环境
 org=$(openssl rand -base64 8 | md5sum | head -c8)
@@ -36,7 +30,7 @@ passwd=$(openssl rand -base64 8 | md5sum | head -c12)
 mkdir ss
 cd ss
 
-wget -O kcptun.tar.gz 'https://coding.net/u/tprss/p/bluemix-source/git/raw/master/kcptun-linux-amd64-20161025.tar.gz'
+wget -O kcptun.tar.gz 'https://github.com/xtaci/kcptun/releases/download/v20161118/kcptun-linux-amd64-20161118.tar.gz'
 tar -zxf kcptun.tar.gz
 
 cat << _EOF2_ > supervisor.sh
