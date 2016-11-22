@@ -27,8 +27,6 @@ cf ic init
 passwd=$(openssl rand -base64 8 | md5sum | head -c12)
 
 # 创建镜像
-mkdir ss
-cd ss
 
 cat << _EOF_ >Dockerfile
 FROM ubuntu:14.04
@@ -48,4 +46,5 @@ _EOF_
 
 cf ic build -t ub:v1 . 
 
-cf ic ip bind $(cf ic ip request | cut -d \" -f 2 | tail -1) $(cf ic run --name=ub -m 1024 -p 22 registry.ng.bluemix.net/`cf ic namespace get`/ub:v1 -p 443 -k ${passwd} -m aes-256-cfb)
+# 运行容器
+cf ic ip bind $(cf ic ip request | cut -d \" -f 2 | tail -1) $(cf ic run -m 1024 -p 443:443 registry.ng.bluemix.net/`cf ic namespace get`/ub:v1 -p 443 -k ${passwd} -m aes-256-cfb)
