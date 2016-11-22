@@ -1,0 +1,18 @@
+  register bluemix (email, password)
+  
+  download cf cli, plugin
+    wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+    echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+    apt-get update
+    apt-get install cf-cli
+    cf -v
+    cf install-plugin https://static-ice.ng.bluemix.net/ibm-containers-linux_x64
+    cf plugins
+    
+  cf login -a api.ng.bluemix.net
+    ->email
+    ->password
+    
+    cf ic init    
+    
+  .....
